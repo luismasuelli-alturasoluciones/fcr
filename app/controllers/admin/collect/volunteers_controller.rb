@@ -26,18 +26,26 @@ class Admin::Collect::VolunteersController < Admin::AdminController
     # This point does not create a volunteer, but picks one
     #   from the list (or an autocomplete! who knows...) and
     #   adds it to the current Year/Place instance.
-    @year_place.year_place_volunteers.create(volunteer: Volunteer.find(params[:volunteer_id]))
-  rescue
-    # render a volunteer-not-found view
+    begin
+      @year_place.year_place_volunteers.create(volunteer: Volunteer.find(params[:volunteer_id]))
+      flash[:success] = 'Voluntario agregado exitosamente'
+    rescue ActiveRecord::RecordNotFound
+      flash[:alert] = 'No se puede agregar el voluntario porque no existe'
+    end
+    redirect_to admin_collect_volunteer_path(@year_place)
   end
 
   def remove_volunteer
     # This point does not destroy a volunteer, but picks one
     #   from the list (or an autocomplete! who knows...) and
     #   adds it to the current Year/Place instance.
-    @year_place.year_place_volunteers.where(volunteer: Volunteer.find(params[:volunteer_id])).delete_all
-  rescue
-    # render a volunteer-not-found view
+    begin
+      @year_place.year_place_volunteers.where(volunteer: Volunteer.find(params[:volunteer_id])).delete_all
+      flash[:success] = 'Voluntario removido exitosamente'
+    rescue ActiveRecord::RecordNotFound
+      flash[:alert] = 'No se puede remover el voluntario porque no existe'
+    end
+    redirect_to admin_collect_volunteer_path(@year_place)
   end
 
   private

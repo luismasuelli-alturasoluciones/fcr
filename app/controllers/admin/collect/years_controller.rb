@@ -24,6 +24,9 @@ class Admin::Collect::YearsController < Admin::AdminController
 
   def create
     @year = Year.create(object_params)
+    if @year.valid?
+      redirect_to admin_collect_years_path, flash: {success: 'Punto creado exitosamente'}
+    end
   end
 
   def edit
@@ -31,18 +34,29 @@ class Admin::Collect::YearsController < Admin::AdminController
 
   def update
     @year.update_attributes(object_params)
+    if @year.valid?
+      flash[:success] = 'Año actualizado exitosamente'
+    end
   end
 
   def add_place
-    @year.year_places.create(place: Place.find(params[:place_id]))
-  rescue
-    # render a year-not-found view
+    begin
+      @year.year_places.create(place: Place.find(params[:place_id]))
+      flash[:success] = 'Punto agregado exitosamente'
+    rescue ActiveRecord::RecordNotFound
+      flash[:alert] = 'No se pudo agregar el punto porque no existe'
+    end
+    redirect_to edit_admin_collect_year_path(@year)
   end
 
   def remove_place
-    @year.year_places.where(place: Place.find(params[:place_id])).delete_all
-  rescue ActiveRecord::RecordNotFound
-    # render a place-not-found view
+    begin
+      @year.year_places.where(place: Place.find(params[:place_id])).delete_all
+      flash[:success] = 'Punto removido exitosamente'
+    rescue ActiveRecord::RecordNotFound
+      flash[:alert] = 'No se pudo remover el punto porque no existe'
+    end
+    redirect_to edit_admin_collect_year_path(@year)
   end
 
   def destroy
