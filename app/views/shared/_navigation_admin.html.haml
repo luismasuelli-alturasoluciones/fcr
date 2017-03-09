@@ -55,7 +55,16 @@
             Encuestas
             %span.messages
               = @pollsCount
-
+        %li{class: ('active' if @selected_menu == 'Collect::Places')}
+          = link_to admin_collect_places_path do
+            %i>
+              %img{alt: "Lugares de Colecta", src: "/assets/follow_user.png"}/
+            Puntos de Colecta
+        %li{class: ('active' if @selected_menu == 'Collect::Places')}
+          = link_to admin_collect_years_path do
+            %i>
+              %img{alt: "Lugares de Colecta", src: "/assets/follow_user.png"}/
+            A&ntilde;os de Colecta
         .clear
 
     .profile_details

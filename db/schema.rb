@@ -146,12 +146,12 @@ ActiveRecord::Schema.define(version: 20170308163323) do
     t.string   "state",           limit: 255, default: "Activo", null: false
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
+    t.integer  "event_type_id",   limit: 4,                      null: false
     t.integer  "responsable_id",  limit: 4
     t.integer  "city_id",         limit: 4
     t.boolean  "requires_adult",              default: false
     t.integer  "area_id",         limit: 4,                      null: false
     t.string   "role",            limit: 255
-    t.integer  "event_type_id",   limit: 4,                      null: false
     t.datetime "activation_date",                                null: false
     t.integer  "brigade_id",      limit: 4
     t.time     "end_time"

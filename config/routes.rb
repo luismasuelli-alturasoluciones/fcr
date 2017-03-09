@@ -35,9 +35,9 @@ Rails.application.routes.draw do
   get 'admin/polls/poll_filter' => 'admin/polls#poll_filter', as: :poll_filter
   get 'admin/events/events_filter' => 'admin/events#events_filter', as: :events_filter
   get 'admin/users/users_filter' => 'admin/users#users_filter', as: :users_filter
+
   namespace :admin do
     resource :dash
-
     resources :users do
       member do
         get :login_as, :resend_activation, :to_csv
@@ -47,7 +47,6 @@ Rails.application.routes.draw do
         get :chart_data
       end
     end
-
     resources :volunteers do
       member do
         post :activate
@@ -73,6 +72,17 @@ Rails.application.routes.draw do
       end
     end
     resources :brigades
+    namespace :collect do
+      resources :places, except: [:show] do
+        post :add_year, :remove_place
+      end
+      resources :years, except: [:show] do
+        post :add_place, :remove_place
+      end
+      resources :volunteers, only: [:index, :show] do
+        post :add_volunteer, :remove_volunteer
+      end
+    end
     resources :events do
       member do
         get :edit_new
