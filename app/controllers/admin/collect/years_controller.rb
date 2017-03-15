@@ -41,10 +41,14 @@ class Admin::Collect::YearsController < Admin::AdminController
 
   def add_place
     begin
-      @year.year_places.create(place: Place.find(params[:place_id]))
+      @year.year_places.create(place: Place.find(params[:place_id]), place_leader: User.find(params[:user_id]))
       flash[:success] = 'Punto agregado exitosamente'
     rescue ActiveRecord::RecordNotFound
-      flash[:alert] = 'No se pudo agregar el punto porque no existe'
+      if exc.model == User
+        flash[:alert] = 'No se pudo agregar el punto porque no existe el usuario seleccionado'
+      else
+        flash[:alert] = 'No se pudo agregar el punto porque no existe'
+      end
     end
     redirect_to edit_admin_collect_year_path(@year)
   end
