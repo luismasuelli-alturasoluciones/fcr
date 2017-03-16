@@ -1,0 +1,22 @@
+.row
+  .col-md-12
+    %table.table.table-striped.table-hover
+      %thead
+        %tr
+          %th Nombre
+          %th Ciudad
+          %th Direcci&oacute;n
+          %th Coordenadas
+          %th Actions
+      %tbody
+        - @places.each do |place|
+          %tr
+            %td= link_to "#{place.name}", edit_admin_collect_place_path(place.id)
+            %td= place.city&.name
+            %td= place.address
+            %td= "#{place.lat},#{place.lng}"
+            %td
+              = link_to admin_collect_place_path(place.id), method: :delete, class: 'btn btn-default btn-sm delete', title: 'Delete', data: {toggle: 'tooltip', confirm: "Esta segur@ que desea borrar el punto?: #{place.name}?"} do
+                %i.glyphicon.glyphicon-trash
+    = page_entries_info @places
+    = will_paginate @places

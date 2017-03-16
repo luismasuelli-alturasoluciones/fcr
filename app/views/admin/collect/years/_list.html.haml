@@ -1,0 +1,18 @@
+.row
+  .col-md-12
+    %table.table.table-striped.table-hover
+      %thead
+        %tr
+          %th A&ntilde;o
+          %th Fecha de Evento
+          %th Actions
+      %tbody
+        - @years.each do |year|
+          %tr
+            %td= link_to "#{year.year}", edit_admin_collect_year_path(year.id)
+            %td= year.year
+            %td
+              = link_to admin_collect_year_path(year.id), method: :delete, class: 'btn btn-default btn-sm delete', title: 'Delete', data: {toggle: 'tooltip', confirm: "Esta segur@ que desea borrar el a&ntilde;o: #{year.year}?"} do
+                %i.glyphicon.glyphicon-trash
+    = page_entries_info @years
+    = will_paginate @years

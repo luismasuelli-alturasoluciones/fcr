@@ -1,0 +1,7 @@
+.container.admin
+  = render 'shared/navigation_admin'
+  .row
+    .chart
+      %h3.module_header
+        Nuevo Punto de Colecta
+    = render 'form', place: @place

@@ -23,7 +23,7 @@
         #flash_messages
           - flash.each do |name, msg|
             - if msg.is_a?(String)
-              .notice{class: "#{name}"}
+              .notice{class: "notice-#{name}"}
                 %i.icon-warning-sign.icon-white
                 #{msg}
           %br/
